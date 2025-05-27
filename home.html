@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CitizenEye - Community Watch Hub</title>
+  <link rel="stylesheet" href="home.css" />
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: #f5f7fa;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 15px 30px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #333;
+  margin-left: 5px;
+}
+
+.navbar a {
+  text-decoration: none;
+  margin-left: 15px;
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.login-btn {
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+}
+
+.main-content {
+  text-align: center;
+  padding: 60px 20px 20px;
+}
+
+.main-content h1 {
+  font-size: 32px;
+  color: #2a36a3;
+  margin-bottom: 10px;
+}
+
+.main-content p {
+  color: #555;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.filter-box {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 800px;
+  margin: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 200px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+input, select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.full-width {
+  flex: 1 1 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reset-btn {
+  padding: 10px 20px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: #e0e0e0;
+}
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+.badge-wanted {
+  background-color: #ff4c4c;
+  color: white;
+}
+
+.badge-missing {
+  background-color: #e2ecf9;
+  color: #2a36a3;
+}
+
+.card-body {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.card-body p {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.card-body ul {
+  list-style: none;
+  padding-left: 0;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.card-body ul li {
+  margin-bottom: 5px;
+}
+
+.details-btn {
+  background-color: #2a36a3;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.details-btn:hover {
+  background-color: #1d2875;
+}
+
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">👁️ <span>CitizenEye</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="login.html" class="login-btn">Login</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <h1>Community Watch Hub</h1>
+    <p>Browse active alerts for missing persons and wanted individuals. Your information can make a difference.</p>
+
+    <div class="filter-box">
+      <div class="form-group">
+        <label>Search by Name</label>
+        <input type="text" placeholder="Enter name..." />
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" placeholder="Enter location..." />
+      </div>
+
+      <div class="form-group">
+        <label>Type</label>
+        <select>
+          <option>All Types</option>
+          <option>Most Wanted</option>
+          <option>Lost Person</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select>
+          <option>Active</option>
+          <option>Resolved</option>
+        </select>
+      </div>
+
+      <div class="form-group full-width">
+        <button class="reset-btn">✖ Reset Filters</button>
+      </div>
+    </div>
+  </main>
+  <div class="cards-container">
+  <!-- Wanted Person -->
+  <div class="card">
+    <div class="card-image">
+      <span class="badge badge-wanted">🔴 Wanted</span>
+      <img src="https://via.placeholder.com/600x400" alt="Wanted Person"/>
+    </div>
+    <div class="card-body">
+      <h3>John "Shadow" Doe</h3>
+      <p>
+        Height: 6'1", Weight: 190 lbs. Brown hair, blue eyes. Scar above left eyebrow.
+        Last seen wearing a dark hoodie and jeans. Considered dangerous.
+      </p>
+      <ul>
+        <li>👤 Age: 35</li>
+        <li>📍 Last seen: Downtown City Bank</li>
+        <li>📅 Reported: October 15th, 2023</li>
+      </ul>
+      <button class="details-btn">View Details & Report Tip</button>
+    </div>
+  </div>
+
+  <!-- Missing Person -->
+  <div class="card">
+    <div class="card-image">
+      <span class="badge badge-missing">🔍 Missing</span>
+      <img src="https://via.placeholder.com/600x400" alt="Missing Person"/>
+    </div>
+    <div class="card-body">
+      <h3>Jane Smith</h3>
+      <p>
+        Height: 5'5", Weight: 130 lbs. Blonde hair, green eyes. Last seen wearing a red
+        jacket and blue jeans, carrying a brown backpack.
+      </p>
+      <ul>
+        <li>👤 Age: 28</li>
+        <li>📍 Last seen: City Park, near the fountain</li>
+        <li>📅 Reported: January 20th, 2024</li>
+      </ul>
+      <button class="details-btn">View Details & Report Tip</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
