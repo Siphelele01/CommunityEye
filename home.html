@@ -223,6 +223,7 @@ input, select {
     <nav>
       <a href="home.html">Home</a>
       <a href="index.html">Login</a>
+      <a href="create_report.html">Report</a>
     </nav>
   </header>
 
@@ -281,7 +282,8 @@ input, select {
         <li>📍 Last seen: Downtown City Bank</li>
         <li>📅 Reported: October 15th, 2023</li>
       </ul>
-      <button class="details-btn">View Details & Report Tip</button>
+      <a href="details.html?id=${index}"><button class="details-btn">View Details & Report Tip</button></a>
+
     </div>
   </div>
 
@@ -302,10 +304,46 @@ input, select {
         <li>📍 Last seen: City Park, near the fountain</li>
         <li>📅 Reported: January 20th, 2024</li>
       </ul>
-      <button class="details-btn">View Details & Report Tip</button>
+      <a href="details.html?id=${index}"><button class="details-btn">View Details & Report Tip</button></a>
+
     </div>
   </div>
 </div>
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 CitizenEye. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:support@citizeneye.org">support@citizeneye.org</a></p>
+  </div>
+</footer>
 
+<script>
+reports.forEach((report, index) => {
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <div class="card-image">
+      <span class="badge ${report.type === 'wanted' ? 'badge-wanted' : 'badge-missing'}">
+        ${report.type === 'wanted' ? '🔴 Wanted' : '🔍 Missing'}
+      </span>
+      <img src="${report.image}" alt="${report.name}" />
+    </div>
+    <div class="card-body">
+      <h3>${report.name}</h3>
+      <p>${report.description}</p>
+      <ul>
+        <li>👤 Age: ${report.age}</li>
+        <li>📍 Last seen: ${report.lastSeen}</li>
+        <li>📅 Reported: ${report.date}</li>
+      </ul>
+      <a href="details.html?id=${index}">
+        <button class="details-btn">View Details & Report Tip</button>
+      </a>
+    </div>
+  `;
+
+  document.querySelector(".cards-container").appendChild(card);
+});
+</script>
 </body>
 </html>
