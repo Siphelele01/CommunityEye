@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Report - CitizenEye</title>
+  <link rel="stylesheet" href="home.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f9;
+      padding: 20px;
+    }
+
+    .form-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      color: #2a36a3;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 100px;
+    }
+
+    .submit-btn {
+      background-color: #2a36a3;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      background-color: #1d2875;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: #2a36a3;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <a href="home.html" class="back-link">← Back to Home</a>
+    <h2>Report a Missing Person or Most Wanted Individual</h2>
+
+    <form id="reportForm" onsubmit="submitReport(event)">
+      <div class="form-group">
+        <label for="reportType">Type of Report</label>
+        <select id="reportType" name="reportType" required>
+          <option value="">Select Type</option>
+          <option value="wanted">Most Wanted</option>
+          <option value="missing">Missing Person</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Full Name or Alias</label>
+        <input type="text" id="name" name="name" placeholder="e.g. John 'Shadow' Doe" required />
+      </div>
+
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" placeholder="e.g. 35" required />
+      </div>
+
+      <div class="form-group">
+        <label for="physicalDescription">Physical Description</label>
+        <textarea id="physicalDescription" name="physicalDescription" placeholder="Height, weight, hair/eye color, scars, etc." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="lastSeen">Last Seen Location</label>
+        <input type="text" id="lastSeen" name="lastSeen" placeholder="e.g. Downtown City Bank" required />
+      </div>
+
+      <div class="form-group">
+        <label for="lastSeenDate">Date Last Seen</label>
+        <input type="date" id="lastSeenDate" name="lastSeenDate" required />
+      </div>
+
+      <div class="form-group">
+  <label for="imageUpload">Upload Image</label>
+  <input type="file" id="imageUpload" name="imageUpload" accept="image/*" required />
+</div>
+
+
+      <div class="form-group">
+        <label for="additionalNotes">Additional Notes</label>
+        <textarea id="additionalNotes" name="additionalNotes" placeholder="Any other helpful information (optional)"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Report</button>
+    </form>
+  </div>
+
+<script>
+  function submitReport(event) {
+    event.preventDefault();
+
+    const form = document.getElementById("reportForm");
+    const formData = new FormData(form);
+
+    const reader = new FileReader();
+    const file = formData.get("imageUpload");
+
+    reader.onload = function () {
+      const imageData = reader.result;
+
+      const report = {
+        type: formData.get("reportType"),
+        name: formData.get("name"),
+        age: formData.get("age"),
+        description: formData.get("physicalDescription"),
+        lastSeen: formData.get("lastSeen"),
+        date: formData.get("lastSeenDate"),
+        notes: formData.get("additionalNotes"),
+        image: imageData
+      };
+
+      const reports = JSON.parse(localStorage.getItem("reports") || "[]");
+      reports.push(report);
+      localStorage.setItem("reports", JSON.stringify(reports));
+
+      alert("Report submitted successfully!");
+      window.location.href = "home.html";
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+</script>
+</body>
+</html>
