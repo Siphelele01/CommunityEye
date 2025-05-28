@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report Details</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      background-color: #f5f7fa;
+    }
+    .details-container {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .details-container img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      color: #2a36a3;
+    }
+    ul {
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+    .comment-section {
+      margin-top: 30px;
+    }
+    .comment-section textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    .comment-section button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      background-color: #2a36a3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .comments-list {
+      margin-top: 20px;
+    }
+    .comments-list p {
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="details-container" id="reportDetails">
+    <!-- Dynamic content -->
+  </div>
+
+  <script>
+    const reports = JSON.parse(localStorage.getItem("reports") || "[]");
+    const index = localStorage.getItem("selectedReport");
+    const report = reports[index];
+    const container = document.getElementById("reportDetails");
+
+    if (report) {
+      container.innerHTML = `
+        <img src="${report.image}" alt="${report.name}">
+        <h2>${report.name}</h2>
+        <p>${report.description}</p>
+        <ul>
+          <li><strong>Age:</strong> ${report.age}</li>
+          <li><strong>Last seen:</strong> ${report.lastSeen}</li>
+          <li><strong>Reported on:</strong> ${report.date}</li>
+          <li><strong>Status:</strong> ${report.type === "wanted" ? "Wanted" : "Missing"}</li>
+        </ul>
+
+        <div class="comment-section">
+          <h3>Community Tips & Comments</h3>
+          <textarea id="commentInput" rows="4" placeholder="Leave a tip or comment..."></textarea>
+          <button onclick="addComment()">Submit Comment</button>
+          <div class="comments-list" id="commentsList"></div>
+        </div>
+      `;
+
+      loadComments(index);
+    }
+
+    function loadComments(reportIndex) {
+      const comments = JSON.parse(localStorage.getItem("comments_" + reportIndex) || "[]");
+      const list = document.getElementById("commentsList");
+      list.innerHTML = comments.map(c => `<p>${c}</p>`).join('');
+    }
+
+    function addComment() {
+      const input = document.getElementById("commentInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const key = "comments_" + index;
+      const comments = JSON.parse(localStorage.getItem(key) || "[]");
+      comments.push(text);
+      localStorage.setItem(key, JSON.stringify(comments));
+
+      input.value = "";
+      loadComments(index);
+    }
+  </script>
+</body>
+</html>
