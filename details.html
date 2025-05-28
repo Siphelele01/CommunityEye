@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Report Details</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">👁️ <span>CitizenEye</span></div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="index.html">Login</a>
+      <a href="create_report.html">Report</a>
+    </nav>
+  </header>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -58,9 +69,45 @@
       border-radius: 6px;
       margin-bottom: 10px;
     }
+    .badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+.badge-wanted {
+  background-color: #ff4c4c;
+  color: white;
+}
+
+.badge-missing {
+  background-color: #e2ecf9;
+  color: #2a36a3;
+}
+.back-btn {
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #2a36a3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.back-btn:hover {
+  background-color: #1d2875;
+}
+
   </style>
 </head>
 <body>
+    <button onclick="goBackHome()" class="back-btn">← Back to Home</button>
+
   <div class="details-container" id="reportDetails">
     <!-- Dynamic content -->
   </div>
@@ -72,24 +119,29 @@
     const container = document.getElementById("reportDetails");
 
     if (report) {
-      container.innerHTML = `
-        <img src="${report.image}" alt="${report.name}">
-        <h2>${report.name}</h2>
-        <p>${report.description}</p>
-        <ul>
-          <li><strong>Age:</strong> ${report.age}</li>
-          <li><strong>Last seen:</strong> ${report.lastSeen}</li>
-          <li><strong>Reported on:</strong> ${report.date}</li>
-          <li><strong>Status:</strong> ${report.type === "wanted" ? "Wanted" : "Missing"}</li>
-        </ul>
+            container.innerHTML = `
+  <div style="position: relative;">
+    <span class="badge ${report.type === "wanted" ? "badge-wanted" : "badge-missing"}">
+      ${report.type === "wanted" ? "🔴 Wanted" : "🔍 Missing"}
+    </span>
+    <img src="${report.image}" alt="${report.name}">
+  </div>
+  <h2>${report.name}</h2>
+  <p>${report.description}</p>
+  <ul>
+    <li><strong>Age:</strong> ${report.age}</li>
+    <li><strong>Last seen:</strong> ${report.lastSeen}</li>
+    <li><strong>Reported on:</strong> ${report.date}</li>
+  </ul>
 
-        <div class="comment-section">
-          <h3>Community Tips & Comments</h3>
-          <textarea id="commentInput" rows="4" placeholder="Leave a tip or comment..."></textarea>
-          <button onclick="addComment()">Submit Comment</button>
-          <div class="comments-list" id="commentsList"></div>
-        </div>
-      `;
+  <div class="comment-section">
+    <h3>Community Tips & Comments</h3>
+    <textarea id="commentInput" rows="4" placeholder="Leave a tip or comment..."></textarea>
+    <button onclick="addComment()">Submit Comment</button>
+    <div class="comments-list" id="commentsList"></div>
+  </div>
+`;
+
 
       loadComments(index);
     }
@@ -113,6 +165,10 @@
       input.value = "";
       loadComments(index);
     }
+    function goBackHome() {
+  window.location.href = "home.html";
+}
+
   </script>
 </body>
 </html>
