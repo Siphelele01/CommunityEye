@@ -266,48 +266,10 @@ input, select {
   </main>
   <div class="cards-container">
   <!-- Wanted Person -->
-  <div class="card">
-    <div class="card-image">
-      <span class="badge badge-wanted">🔴 Wanted</span>
-      <img src="https://via.placeholder.com/600x400" alt="Wanted Person"/>
-    </div>
-    <div class="card-body">
-      <h3>John "Shadow" Doe</h3>
-      <p>
-        Height: 6'1", Weight: 190 lbs. Brown hair, blue eyes. Scar above left eyebrow.
-        Last seen wearing a dark hoodie and jeans. Considered dangerous.
-      </p>
-      <ul>
-        <li>👤 Age: 35</li>
-        <li>📍 Last seen: Downtown City Bank</li>
-        <li>📅 Reported: October 15th, 2023</li>
-      </ul>
-      <a href="details.html?id=${index}"><button class="details-btn">View Details & Report Tip</button></a>
+  <div class="cards-container" id="cards-container">
+  <!-- Dynamic report cards will be injected here -->
+</div>
 
-    </div>
-  </div>
-
-  <!-- Missing Person -->
-  <div class="card">
-    <div class="card-image">
-      <span class="badge badge-missing">🔍 Missing</span>
-      <img src="https://via.placeholder.com/600x400" alt="Missing Person"/>
-    </div>
-    <div class="card-body">
-      <h3>Jane Smith</h3>
-      <p>
-        Height: 5'5", Weight: 130 lbs. Blonde hair, green eyes. Last seen wearing a red
-        jacket and blue jeans, carrying a brown backpack.
-      </p>
-      <ul>
-        <li>👤 Age: 28</li>
-        <li>📍 Last seen: City Park, near the fountain</li>
-        <li>📅 Reported: January 20th, 2024</li>
-      </ul>
-      <a href="details.html?id=${index}"><button class="details-btn">View Details & Report Tip</button></a>
-
-    </div>
-  </div>
 </div>
 <footer class="footer">
   <div class="footer-content">
@@ -316,34 +278,47 @@ input, select {
   </div>
 </footer>
 
+
 <script>
-reports.forEach((report, index) => {
-  const card = document.createElement("div");
-  card.className = "card";
+  window.addEventListener("DOMContentLoaded", () => {
+    const reports = JSON.parse(localStorage.getItem("reports") || "[]");
+    const container = document.querySelector(".cards-container");
 
-  card.innerHTML = `
-    <div class="card-image">
-      <span class="badge ${report.type === 'wanted' ? 'badge-wanted' : 'badge-missing'}">
-        ${report.type === 'wanted' ? '🔴 Wanted' : '🔍 Missing'}
-      </span>
-      <img src="${report.image}" alt="${report.name}" />
-    </div>
-    <div class="card-body">
-      <h3>${report.name}</h3>
-      <p>${report.description}</p>
-      <ul>
-        <li>👤 Age: ${report.age}</li>
-        <li>📍 Last seen: ${report.lastSeen}</li>
-        <li>📅 Reported: ${report.date}</li>
-      </ul>
-      <a href="details.html?id=${index}">
-        <button class="details-btn">View Details & Report Tip</button>
-      </a>
-    </div>
-  `;
+    reports.forEach(report => {
+      const card = document.createElement("div");
+      card.className = "card";
 
-  document.querySelector(".cards-container").appendChild(card);
-});
+      const badgeClass = report.type === "wanted" ? "badge-wanted" : "badge-missing";
+      const badgeText = report.type === "wanted" ? "🔴 Wanted" : "🔍 Missing";
+
+      card.innerHTML = `
+        <div class="card-image">
+          <span class="badge ${badgeClass}">${badgeText}</span>
+          <img src="${report.image}" alt="${report.name}" />
+        </div>
+        <div class="card-body">
+          <h3>${report.name}</h3>
+          <p>${report.description}</p>
+          <ul>
+            <li>👤 Age: ${report.age}</li>
+            <li>📍 Last seen: ${report.lastSeen}</li>
+            <li>📅 Reported: ${report.date}</li>
+          </ul>
+          <button class="details-btn" onclick="viewDetails(${reports.indexOf(report)})">View Details & Report Tip</button>
+
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  });
 </script>
+<script>
+  function viewDetails(index) {
+    localStorage.setItem("selectedReport", index);
+    window.location.href = "details.html";
+  }
+</script>
+
 </body>
 </html>
